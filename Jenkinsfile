@@ -1,25 +1,26 @@
 pipeline {
-    agent any
-    stages {
-        stage('Build Application') {
-            steps {
-                sh 'mvn -f pom.xml clean package'
+      agent any
+      stages {
+            stage('Init') {
+                  steps {
+                        echo 'Hi, this is Anshul from LevelUp360'
+                        echo 'We are Starting the Testing'
+                  }
             }
-            post {
-                success {
-                    echo "Now Archiving the Artifacts...."
-                    archiveArtifacts artifacts: '**/*.war'
-                }
+            stage('Build') {
+                  steps {
+                        echo 'Building Sample Maven Project'
+                  }
             }
-        }
-
-        stage('Create Tomcat Docker Image'){
-            steps {
-                sh "pwd"
-                sh "ls -a"
-                sh "docker build . -t tomcatsamplewebapp:${env.BUILD_ID}"
+            stage('Deploy') {
+                  steps {
+                        echo "Deploying in Staging Area"
+                  }
             }
-        }
-
-    }
+            stage('Deploy Production') {
+                  steps {
+                        echo "Deploying in Production Area"
+                  }
+            }
+      }
 }
